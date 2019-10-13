@@ -1,60 +1,61 @@
 Vulnerability,Likelihood,Impact
-In deployment infrastructure (i.e. power failure),0.68651,34.5652
-In production or integration supply chain (i.e. use of faulty component),0.68651,34.5652
-Reset switch leading to insecure state,0.0729366,19.5652
-Removable media,0.344588,30.4348
-No hardware tamper protection,0.68651,31.7391
-No authenticity check on all updates,0.257537,6.73913
-No integrity check on all updates,0.257537,6.73913
-No manual update mechanism,0.965102,34.5652
-No control of sensor environment (e.g. can blind a camera- or put a heat source in front of a temperature sensor),0.101917,17.1739
-Unnecessary or unused services and applications,0.99917,30.4348
-No jamming countermeasures,0.273979,14.3478
-Insecure 3rd party APIs,0.980629,31.7391
-Insecure boot process,0.961823,30.4348
-Exposed services on open ports,0.697517,8.26087
-Lack of message integrity check (nonce- MACs- etc.),0.542665,17.1739
-Unchecked resource buffers,0.318377,31.7391
-No redundancy of storage or service,0.924618,14.3478
-Unnecessary privileges,0.763007,34.5652
-Cloud interface does not support two-factor authentication,0.75617,8.26087
-Unencrypted local storage,0.949374,15.6522
-Existence of a kill command that permanently disables device,0.0729366,14.3478
-No alternative network infrastructure,0.966627,14.3478
-Programming modification/reconfiguration,0.847226,31.7391
-No update mechanism,0.965102,34.5652
-Unsafe password recovery procedure,0.231745,8.26087
-No lock-out or delaying measures to protect accounts against brute-force attacks,0.789714,8.26087
-No automatic session/logout timeout function,0.659837,12.3913
-Hardcoded security information,0.842396,8.26087
-Weak or default passwords,0.824485,8.26087
-No authentication,0.662979,8.26087
-No encryption on all updates,0.289944,1.73913
-Some security features are left unenabled,0.999971,34.5652
-Vulnerable protocol design,0.754487,18.6957
-No protection against account harvesting,0.854314,4.78261
-No mutual authentication between client and server,0.444345,12.3913
-Easy discovery of IoT devices on LAN,0.75826,4.78261
-No or insuffcient DDoS countermeasures,0.981301,14.3478
-Insuffcient backup DNS or IPs,0.972156,3.91304
-Administration interface contains common web application/management console vulnerabilities,0.994026,34.5652
-Ignoring certificate revocation lists,0.154496,16.7391
-Security audit vulnerabilities - security audit functions miss,0.228239,3.91304
-Unchecked protocol parameters,0.754487,22.6087
-No physical security (i.e. physical barriers- locks or access controls),0.299994,31.7391
-Weak or broken encryption,0.882165,8.26087
-Application does not use SSL connection to cloud,0.45466,8.26087
-No enforcement or possibility of strong password,0.824485,12.1739
-Weak pseudo-random number generator,0.882165,8.26087
-No automated update mechanism,0.965102,34.5652
-Non-standard protocol implementation,0.754487,22.6087
-Unauthenticated requests to perform actions (ex. reconon- data retrieval- management functions- etc.) gurati,0.986049,34.5652
-Clear text traffic,0.45466,8.26087
-Cloud platform contains common web application/management console vulnerabilities,0.994687,34.5652
-Key and Token reuse,0.968101,12.3913
-No lock-out or delaying measures to protect accounts against brute-force attacks,0.789714,8.26087
-Identification options and HTTP trace methods are enabled,0.470756,12.1739
-Ability to perform unrequested rmware upgrades,0.892001,27.8261
-Identity verification (e.g. certificate pinning),0.960469,34.5652
-Data is identifiable and not anonymized,0.498584,3.47826
-No session identifiers (session tokens- OTP- etc.),0.153958,22.8261
+In deployment infrastructure (i.e. power failure),0,0
+In deployment infrastructure (i.e. power failure),0.999095,33.125
+In production or integration supply chain (i.e. use of faulty component),0.999095,33.125
+Reset switch leading to insecure state,0.33,18.75
+Removable media,0.9665,29.1667
+No hardware tamper protection,0.999095,30.4167
+No authenticity check on all updates,0.8325,6.45833
+No integrity check on all updates,0.8325,6.45833
+No manual update mechanism,1,33.125
+No control of sensor environment (e.g. can blind a camera- or put a heat source in front of a temperature sensor),0.33,16.4583
+Unnecessary or unused services and applications,1,29.1667
+No jamming countermeasures,0.798489,13.75
+Insecure 3rd party APIs,1,30.4167
+Insecure boot process,1,29.1667
+Exposed services on open ports,0.995,7.91667
+Lack of message integrity check (nonce- MACs- etc.),0.971944,16.4583
+Unchecked resource buffers,0.77555,30.4167
+No redundancy of storage or service,1,13.75
+Unnecessary privileges,0.999992,33.125
+Cloud interface does not support two-factor authentication,0.999875,7.91667
+Unencrypted local storage,1,15
+Existence of a kill command that permanently disables device,0.33,13.75
+No alternative network infrastructure,1,13.75
+Programming modification/reconfiguration,0.99998,30.4167
+No update mechanism,1,33.125
+Unsafe password recovery procedure,0.75,7.91667
+No lock-out or delaying measures to protect accounts against brute-force attacks,0.999916,7.91667
+No automatic session/logout timeout function,0.998437,11.875
+Hardcoded security information,0.999992,7.91667
+Weak or default passwords,0.999988,7.91667
+No authentication,0.99875,7.91667
+No encryption on all updates,0.75,1.66667
+Some security features are left unenabled,1,33.125
+Vulnerable protocol design,0.99915,17.9167
+No protection against account harvesting,0.999994,4.58333
+No mutual authentication between client and server,0.975,11.875
+Easy discovery of IoT devices on LAN,0.997756,4.58333
+No or insuffcient DDoS countermeasures,1,13.75
+Insuffcient backup DNS or IPs,1,3.75
+Administration interface contains common web application/management console vulnerabilities,1,33.125
+Ignoring certificate revocation lists,0.5,16.0417
+Security audit vulnerabilities - security audit functions miss,0.7975,3.75
+Unchecked protocol parameters,0.99915,21.6667
+No physical security (i.e. physical barriers- locks or access controls),0.864987,30.4167
+Weak or broken encryption,0.999915,7.91667
+Application does not use SSL connection to cloud,0.9375,7.91667
+No enforcement or possibility of strong password,0.999988,11.6667
+Weak pseudo-random number generator,0.999915,7.91667
+No automated update mechanism,1,33.125
+Non-standard protocol implementation,0.99915,21.6667
+Unauthenticated requests to perform actions (ex. reconon- data retrieval- management functions- etc.) gurati,1,33.125
+Clear text traffic,0.9375,7.91667
+Cloud platform contains common web application/management console vulnerabilities,1,33.125
+Key and Token reuse,1,11.875
+No lock-out or delaying measures to protect accounts against brute-force attacks,0.999916,7.91667
+Identification options and HTTP trace methods are enabled,0.995,11.6667
+Ability to perform unrequested rmware upgrades,1,26.6667
+Identity verification (e.g. certificate pinning),1,33.125
+Data is identifiable and not anonymized,0.9875,3.33333
+No session identifiers (session tokens- OTP- etc.),0.5,21.875

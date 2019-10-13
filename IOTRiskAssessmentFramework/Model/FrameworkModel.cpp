@@ -79,59 +79,59 @@ void FrameworkModel::GetParameters()
     }
     string name,minScore,maxScore;
     std::getline(pFile,name,',');
-    std::getline(pFile,minScore,'\r');
+    std::getline(pFile,minScore,'\n');
     m_useDeviceWeights = (bool) std::atof(minScore.c_str());
     // cout << "Use device prevalency scores: " << std::atof(minScore.c_str()) << endl;
     std::getline(pFile,name,',');
-    std::getline(pFile,minScore,'\r');
+    std::getline(pFile,minScore,'\n');
     m_controlDelta = std::atof(minScore.c_str());
     // cout << "Control sensitivity delta: " << m_controlDelta << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
-    std::getline(pFile,maxScore,'\r');
+    std::getline(pFile,maxScore,'\n');
     m_assetMinScore = std::atof(minScore.c_str());
     m_assetMaxScore = std::atof(maxScore.c_str());
     // cout << "Asset likelihood score range: " << m_assetMinScore << "-" << m_assetMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
-    std::getline(pFile,maxScore,'\r');
+    std::getline(pFile,maxScore,'\n');
     m_actionMinScore = std::atof(minScore.c_str());
     m_actionMaxScore = std::atof(maxScore.c_str());
     // cout << "Action likelihood score range: " << m_actionMinScore << "-" << m_actionMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
-    std::getline(pFile,maxScore,'\r');
+    std::getline(pFile,maxScore,'\n');
     m_vulnerabilityMinScore = std::atof(minScore.c_str());
     m_vulnerabilityMaxScore = std::atof(maxScore.c_str());
     // cout << "Vulnerability prevalency score range: " << m_vulnerabilityMinScore << "-" << m_vulnerabilityMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
-    std::getline(pFile,maxScore,'\r');
+    std::getline(pFile,maxScore,'\n');
     m_impactMinScore = std::atof(minScore.c_str());
     m_impactMaxScore = std::atof(maxScore.c_str());
     // cout << "Impact score range: " << m_impactMinScore << "-" << m_impactMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
-    std::getline(pFile,maxScore,'\r');
+    std::getline(pFile,maxScore,'\n');
     m_deviceMinScore = std::atof(minScore.c_str());
     m_deviceMaxScore = std::atof(maxScore.c_str());
     // cout << "Device prevalency score range: " << m_deviceMinScore << "-" << m_deviceMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
-    std::getline(pFile,maxScore,'\r');
+    std::getline(pFile,maxScore,'\n');
     m_controlMinScore = std::atof(minScore.c_str());
     m_controlMaxScore = std::atof(maxScore.c_str());
     // cout << "Control implementation score range: " << m_controlMinScore << "-" << m_controlMaxScore << endl;
     m_controlDelta = m_controlDelta/(m_controlMaxScore - m_controlMinScore);
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
-    std::getline(pFile,maxScore,'\r');
+    std::getline(pFile,maxScore,'\n');
     m_controlEMinScore = std::atof(minScore.c_str());
     m_controlEMaxScore = std::atof(maxScore.c_str());
     // cout << "Control effectiveness score range: " << m_controlEMinScore << "-" << m_controlEMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
-    std::getline(pFile,maxScore,'\r');
+    std::getline(pFile,maxScore,'\n');
     m_riskMinScore = std::atof(minScore.c_str());
     m_riskMaxScore = std::atof(maxScore.c_str());
     // cout << "Risk score range: " << m_riskMinScore << "-" << m_riskMaxScore << endl;
@@ -154,7 +154,7 @@ void FrameworkModel::PopulateVulnerabilities()
     std::getline(vFile,name,',');
     std::getline(vFile,layer,',');
     std::getline(vFile,category,',');
-    std::getline(vFile,weight,'\r');
+    std::getline(vFile,weight,'\n');
     
     while(vFile.good())
     {
@@ -164,14 +164,14 @@ void FrameworkModel::PopulateVulnerabilities()
         std::getline(vFile,category,',');
         //TODO: This will be a nasty bug eventually. For now letting it be
         //Basically we need to figure out how to safely parse CSV files created in different platforms
-        //On mac, it seems like the CSVs created end with \r
-        std::getline(vFile,weight,'\r');
+        //On mac, it seems like the CSVs created end with \n
+        std::getline(vFile,weight,'\n');
         
         Vulnerability vTemp(ID,name,layer,category,std::atof(weight.c_str()),m_useDeviceWeights,m_vulnerabilityMinScore,m_vulnerabilityMaxScore);
-        m_vulnerabilities[ID] = vTemp;
+        m_vulnerabilities.insert(std::make_pair(ID, vTemp));
     }
     
-    // cout << "Total number of vulnerabilities read: " << m_vulnerabilities.size() << endl;
+     cout << "Total number of vulnerabilities read: " << m_vulnerabilities.size() << endl;
 }
 
 void FrameworkModel::GetNumberOfThreatActors()
@@ -185,17 +185,17 @@ void FrameworkModel::GetNumberOfThreatActors()
     }
     //skipping the first 2 lines as they have headers
     string temp,commas;
-    std::getline(aFile,temp,'\r');
-    std::getline(aFile,temp,'\r');
+    std::getline(aFile,temp,'\n');
+    std::getline(aFile,temp,'\n');
 
     std::getline(aFile,temp,',');
     std::getline(aFile,temp,',');
     std::getline(aFile,temp,',');
     std::getline(aFile,temp,',');
-    std::getline(aFile,commas,'\r');
+    std::getline(aFile,commas,'\n');
     m_numOfThreatActors = std::count(commas.begin(),commas.end(),',')+1;
 
-    // cout << "Total number of threat actors read: " << m_numOfThreatActors << endl;
+    cout << "Total number of threat actors read: " << m_numOfThreatActors << endl;
 }
 
 void FrameworkModel::PopulateActions()
@@ -212,8 +212,8 @@ void FrameworkModel::PopulateActions()
     string altID,ID,name,mechanism,category,weight;
     vector<double> weightVec(m_numOfThreatActors);
     
-    std::getline(aFile,ID,'\r');
-    std::getline(aFile,ID,'\r');
+    std::getline(aFile,ID,'\n');
+    std::getline(aFile,ID,'\n');
     
     while(aFile.good())
     {
@@ -223,21 +223,21 @@ void FrameworkModel::PopulateActions()
         std::getline(aFile,category,',');
         //TODO: This will be a nasty bug eventually. For now letting it be
         //Basically we need to figure out how to safely parse CSV files created in different platforms
-        //On mac, it seems like the CSVs created end with \r
+        //On mac, it seems like the CSVs created end with \n
         int i = 0;
         for(i=0;i<m_numOfThreatActors-1;i++)
         {
             std::getline(aFile,weight,',');
             weightVec[i] = std::atof(weight.c_str());
         }
-        std::getline(aFile,weight,'\r');
+        std::getline(aFile,weight,'\n');
         weightVec[i] = std::atof(weight.c_str());
         
         Action aTemp(ID,name,mechanism,category,weightVec,m_actionMinScore,m_actionMaxScore);
         m_actions[ID]  = aTemp;
     }
     
-    // cout << "Total number of actions read: " << m_actions.size() << endl;
+    cout << "Total number of actions read: " << m_actions.size() << endl;
 }
 
 void FrameworkModel::PopulateAssets()
@@ -254,8 +254,8 @@ void FrameworkModel::PopulateAssets()
     string ID,name,category,subcategory,weight;
     vector<double> weightVec(m_numOfThreatActors);
     
-    std::getline(aFile,ID,'\r');
-    std::getline(aFile,ID,'\r');
+    std::getline(aFile,ID,'\n');
+    std::getline(aFile,ID,'\n');
     
     while(aFile.good())
     {
@@ -265,21 +265,21 @@ void FrameworkModel::PopulateAssets()
         std::getline(aFile,subcategory,',');
         //TODO: This will be a nasty bug eventually. For now letting it be
         //Basically we need to figure out how to safely parse CSV files created in different platforms
-        //On mac, it seems like the CSVs created end with \r
+        //On mac, it seems like the CSVs created end with \n
         int i = 0;
         for(i=0;i<m_numOfThreatActors-1;i++)
         {
             std::getline(aFile,weight,',');
             weightVec[i] = std::atof(weight.c_str());
         }
-        std::getline(aFile,weight,'\r');
+        std::getline(aFile,weight,'\n');
         weightVec[i] = std::atof(weight.c_str());
         
         Asset aTemp(ID,name,category,subcategory,weightVec,m_assetMinScore,m_assetMaxScore);
         m_assets[ID]  = aTemp;
     }
     
-    // cout << "Total number of assets read: " << m_assets.size() << endl;
+     cout << "Total number of assets read: " << m_assets.size() << endl;
 }
 
 void FrameworkModel::PopulateProperties()
@@ -299,7 +299,7 @@ void FrameworkModel::PopulateProperties()
     std::getline(pFile,name,',');
     std::getline(pFile,highLevel,',');
     std::getline(pFile,lowLevel,',');
-    std::getline(pFile,weight,'\r');
+    std::getline(pFile,weight,'\n');
     
     while(pFile.good())
     {
@@ -309,14 +309,14 @@ void FrameworkModel::PopulateProperties()
         std::getline(pFile,lowLevel,',');
         //TODO: This will be a nasty bug eventually. For now letting it be
         //Basically we need to figure out how to safely parse CSV files created in different platforms
-        //On mac, it seems like the CSVs created end with \r
-        std::getline(pFile,weight,'\r');
+        //On mac, it seems like the CSVs created end with \n
+        std::getline(pFile,weight,'\n');
         
         Property pTemp(ID,name,highLevel,lowLevel,std::atof(weight.c_str()),m_impactMinScore,m_impactMaxScore);
         m_properties[ID]  = pTemp;
     }
     
-    // cout << "Total number of properties read: " << m_properties.size() << endl;
+    cout << "Total number of properties read: " << m_properties.size() << endl;
     pFile.close();
 }
 
@@ -335,18 +335,18 @@ void FrameworkModel::PopulateRisks()
     string ID,name;
     
     std::getline(rFile,ID,',');
-    std::getline(rFile,name,'\r');
+    std::getline(rFile,name,'\n');
     
     while(rFile.good())
     {
         std::getline(rFile,ID,',');
-        std::getline(rFile,name,'\r');
+        std::getline(rFile,name,'\n');
         
         Risk rTemp(ID,name,m_riskMinScore,m_riskMaxScore);
         m_risk[ID]  = rTemp;
     }
     
-    // cout << "Total number of risks read: " << m_risk.size() << endl;
+    cout << "Total number of risks read: " << m_risk.size() << endl;
 }
 
 void FrameworkModel::PopulateControls()
@@ -366,19 +366,19 @@ void FrameworkModel::PopulateControls()
     std::getline(cFile,ID,',');
     std::getline(cFile,name,',');
     std::getline(cFile,weight,',');
-    std::getline(cFile,effectiveness,'\r');
+    std::getline(cFile,effectiveness,'\n');
     
     while(cFile.good())
     {
         std::getline(cFile,ID,',');
         std::getline(cFile,name,',');
         std::getline(cFile,weight,',');
-        std::getline(cFile,effectiveness,'\r');
+        std::getline(cFile,effectiveness,'\n');
         Control sTemp(ID,name,std::atof(weight.c_str()),m_controlMinScore,m_controlMaxScore,std::atof(effectiveness.c_str()),m_controlEMinScore,m_controlEMaxScore);
         m_controls[ID]  = sTemp;
     }
     
-    // cout << "Total number of controls read: " << m_controls.size() << endl;
+    cout << "Total number of controls read: " << m_controls.size() << endl;
 }
 
 void FrameworkModel::PopulateDevices()
@@ -399,7 +399,7 @@ void FrameworkModel::PopulateDevices()
     std::getline(dFile,name,',');
     std::getline(dFile,dclass,',');
     std::getline(dFile,dsubclass,',');
-    std::getline(dFile,weight,'\r');
+    std::getline(dFile,weight,'\n');
     
     while(dFile.good())
     {
@@ -407,13 +407,13 @@ void FrameworkModel::PopulateDevices()
         std::getline(dFile,name,',');
         std::getline(dFile,dclass,',');
         std::getline(dFile,dsubclass,',');
-        std::getline(dFile,weight,'\r');
+        std::getline(dFile,weight,'\n');
         
         Device dTemp(ID,name,dclass,dsubclass,std::atof(weight.c_str()),m_deviceMinScore,m_deviceMaxScore);
         m_devices[ID]  = dTemp;
     }
     
-    // cout << "Total number of devices read: " << m_devices.size() << endl;
+    cout << "Total number of devices read: " << m_devices.size() << endl;
 }
 
 void FrameworkModel::ListActions()
@@ -452,42 +452,56 @@ std::unordered_map<std::string,Vulnerability>& FrameworkModel::GetVulnerabilitie
 
 void FrameworkModel::AddVul2ActionMapping(string vulID, string actionID)
 {
-    // cout << "Adding a mapping from vulnerability: " << vulID << " to action: " << actionID << endl;
+    assert(m_actions.find(actionID)!=m_actions.end());
+    assert(m_vulnerabilities.find(vulID)!=m_vulnerabilities.end());
     m_vulnerability2Action[vulID].push_back(actionID);
 }
 
 void FrameworkModel::AddAction2AssetMapping(string actionID, string assetID)
 {
+    assert(m_actions.find(actionID)!=m_actions.end());
+    assert(m_assets.find(assetID)!=m_assets.end());
+
     // cout << "Adding a mapping from action: " << actionID << " to asset: " << assetID << endl;
     m_action2Asset[actionID].push_back(assetID);
 }
 
 void FrameworkModel::AddVul2PropertyMapping(string vulID, string propertyID)
 {
+    assert(m_vulnerabilities.find(vulID)!=m_vulnerabilities.end());
+    assert(m_properties.find(propertyID)!=m_properties.end());
     // cout << "Adding a mapping from vulnerability: " << vulID << " to property: " << propertyID << endl;
     m_vulnerability2Property[vulID].push_back(propertyID);
 }
 
 void FrameworkModel::AddRisk2VulMapping(string rID, string vulID)
 {
-    // cout << "Adding a mapping from risk: " << rID << " to vulnerability: " << vulID << endl;
+    cout << "siddhant: vulnerability ID: " << vulID << endl;
+    assert(m_vulnerabilities.find(vulID)!=m_vulnerabilities.end());
+    assert(m_risk.find(rID)!=m_risk.end());
     m_risk2Vulnerability[rID].push_back(vulID);
 }
 
 void FrameworkModel::AddRisk2ControlMapping(string rID, string controlID)
 {
-    // cout << "Adding a mapping from risk: " << rID << " to control: " << controlID << endl;
+    assert(m_controls.find(controlID)!=m_controls.end());
+    assert(m_risk.find(rID)!=m_risk.end());
     m_risk2Control[rID].push_back(controlID);
 }
 
 void FrameworkModel::AddControl2VulnerabilityMapping(string controlID, string vulID)
 {
+    cout << "siddhant: vulnerability ID: " << vulID << endl;
+    assert(m_controls.find(controlID)!=m_controls.end());
+    assert(m_vulnerabilities.find(vulID)!=m_vulnerabilities.end());
     // cout << "Adding a mapping from control: " << controlID << " to vulnerability: " << vulID << endl;
     m_control2Vulnerability[controlID].push_back(vulID);
 }
 
 void FrameworkModel::AddDevice2VulnerabilityMapping(string deviceID, string vulID)
 {
+    assert(m_devices.find(deviceID)!=m_devices.end());
+    assert(m_vulnerabilities.find(vulID)!=m_vulnerabilities.end());
     // cout << "Adding a mapping from device: " << deviceID << " to vulnerability: " << vulID << endl;
     m_device2Vulnerability[deviceID].push_back(vulID);
 }
@@ -539,6 +553,7 @@ void FrameworkModel::UpdateVulnerabilityDeviceWeights()
         // cout << "updating vulnerability prevalency score: " << *vulIt << endl;
         while(vulIt!=linkedVuls.end())
         {
+            assert(m_vulnerabilities.find(*vulIt)!=m_vulnerabilities.end());
             m_vulnerabilities[*vulIt].SetDeviceWeight( m_devices[d2vIt->first].GetWeight() ) ;
             vulIt++;
         }
@@ -563,13 +578,13 @@ void FrameworkModel::ReadMapsFromFile()
     string headerID;
     string headerName;
     std::getline(v2aFile,headerID,',');
-    std::getline(v2aFile,headerName,'\r');
+    std::getline(v2aFile,headerName,'\n');
     
     
     while(v2aFile.good())
     {
         string line;
-        std::getline(v2aFile,line,'\r');
+        std::getline(v2aFile,line,'\n');
         stringstream lineSS(line);
         string vID;
         string vName;
@@ -582,8 +597,9 @@ void FrameworkModel::ReadMapsFromFile()
             string actionID;
             getline(lineSS,actionID,',');
             //hacky fix for a row which has lesser number of columns than max number of columns
-            if(actionID.length()==0)
+            if(actionID.empty())
                 continue;
+            cout << "vID: " << vID << " actionID: " << actionID << std::endl;
             AddVul2ActionMapping(vID,actionID);
         }
     }
@@ -597,13 +613,14 @@ void FrameworkModel::ReadMapsFromFile()
     }
     
     std::getline(d2vFile,headerID,',');
-    std::getline(d2vFile,headerName,'\r');
+    std::getline(d2vFile,headerName,'\n');
     
     
     while(d2vFile.good())
     {
         string line;
-        std::getline(d2vFile,line,'\r');
+        std::getline(d2vFile,line,'\n');
+        std::getline(d2vFile,line,'\n');
         stringstream lineSS(line);
         string dID;
         string dName;
@@ -616,7 +633,7 @@ void FrameworkModel::ReadMapsFromFile()
             string vulID;
             getline(lineSS,vulID,',');
             //hacky fix for a row which has lesser number of columns than max number of columns
-            if(vulID.length()==0)
+            if(vulID.empty())
                 continue;
             AddDevice2VulnerabilityMapping(dID, vulID);
         }
@@ -633,11 +650,15 @@ void FrameworkModel::ReadMapsFromFile()
         //TODO: should throw an exception here!
         cout << "Error opening actions to assets file" << endl;
     }
-    
+
+    std::getline(a2aFile,headerID,',');
+    std::getline(a2aFile,headerName,'\n');
+
     while(a2aFile.good())
     {
         string line;
-        getline(a2aFile,line,'\r');
+        getline(a2aFile,line,'\n');
+        cout << "Line read: " << line << std::endl;
         stringstream lineSS(line);
         string aID;
         string aName;
@@ -646,13 +667,17 @@ void FrameworkModel::ReadMapsFromFile()
         std::getline(lineSS,aID,',');
         std::getline(lineSS,aName,',');
         
-        while(lineSS.good())
+        while(lineSS)
         {
             string assetID;
-            getline(lineSS,assetID,',');
+            if(!getline(lineSS,assetID,',')){
+                break;
+            }
             //hacky fix for a row which has lesser number of columns than max number of columns
-            if(assetID.length()==0)
+            if(assetID.empty()) {
                 continue;
+            }
+
             AddAction2AssetMapping(aID,assetID);
         }
     }
@@ -664,11 +689,14 @@ void FrameworkModel::ReadMapsFromFile()
         //TODO: should throw an exception here!
         cout << "Error opening vulnerabilities to properties file" << endl;
     }
-    
+
+    std::getline(v2pFile,headerID,',');
+    std::getline(v2pFile,headerName,'\n');
+
     while(v2pFile.good())
     {
         string line;
-        getline(v2pFile,line,'\r');
+        getline(v2pFile,line,'\n');
         stringstream lineSS(line);
         string vID;
         string vName;
@@ -680,7 +708,7 @@ void FrameworkModel::ReadMapsFromFile()
             string propertyID;
             getline(lineSS,propertyID,',');
             //hacky fix for a row which has lesser number of columns than max number of columns
-            if(propertyID.length()==0)
+            if(propertyID.empty())
                 continue;
             AddVul2PropertyMapping(vID,propertyID);
         }
@@ -693,11 +721,14 @@ void FrameworkModel::ReadMapsFromFile()
         //TODO: should throw an exception here!
         cout << "Error opening risks to vulnerabilities file" << endl;
     }
-    
+
+    std::getline(r2vFile,headerID,',');
+    std::getline(r2vFile,headerName,'\n');
+
     while(r2vFile.good())
     {
         string line;
-        getline(r2vFile,line,'\r');
+        getline(r2vFile,line,'\n');
         
         
         stringstream lineSS(line);
@@ -722,11 +753,14 @@ void FrameworkModel::ReadMapsFromFile()
         //TODO: should throw an exception here!
         cout << "Error opening risks to controls file" << endl;
     }
-    
+
+    std::getline(r2cFile,headerID,',');
+    std::getline(r2cFile,headerName,'\n');
+
     while(r2cFile.good())
     {
         string line;
-        getline(r2cFile,line,'\r');
+        getline(r2cFile,line,'\n');
         stringstream lineSS(line);
         string rID;
         string rName;
@@ -749,11 +783,14 @@ void FrameworkModel::ReadMapsFromFile()
         //TODO: should throw an exception here!
         cout << "Error opening controls to vulnerabilities file" << endl;
     }
-    
+
+    std::getline(c2vFile,headerID,',');
+    std::getline(c2vFile,headerName,'\n');
+
     while(c2vFile.good())
     {
         string line;
-        getline(c2vFile,line,'\r');
+        getline(c2vFile,line,'\n');
         stringstream lineSS(line);
         string controlID;
         string controlName;
@@ -773,7 +810,7 @@ void FrameworkModel::ReadMapsFromFile()
 //Calculate the union of asset likelihoods for every action along with the union of action likelihoods associated with each vulnerability. Similarly, calculate the sum of property weights (impact score) for each vulnerability
 void FrameworkModel::CalculateCumulativeWeights()
 {
-    // ListVulnerabilities();
+    ListVulnerabilities();
     CalculateActionAssetWeights();
     CalculateVulnerabilityLikelihood();
     CalculateVulnerabilityImpact();
@@ -816,6 +853,7 @@ void FrameworkModel::CalculateActionAssetWeights()
         
         while(assetIt!=linkedAssets.end())
         {
+            cout << "assetIt: " << *assetIt << std::endl;
             Asset currentAsset = m_assets[*assetIt];
             
             if ( assetCategory2Asset.find(currentAsset.GetCategory()) == assetCategory2Asset.end() )
@@ -840,7 +878,7 @@ void FrameworkModel::CalculateActionAssetWeights()
         a2aIt ++;
     }
     
-    // cout << "Action/asset likelihoods calculated" << endl;
+     cout << "Action/asset likelihoods calculated" << endl;
 }
 
 void FrameworkModel::CalculateVulnerabilityLikelihood()
@@ -862,6 +900,7 @@ void FrameworkModel::CalculateVulnerabilityLikelihood()
             // cout << "Calculating likelihood for vulnerability: " << v2aIt->first << endl;
             while(actionIt!=linkedActions.end())
             {
+
                 assetActionWeightVector.push_back(m_actions[*actionIt].GetWeight(i)*m_actions[*actionIt].GetAssetWeight(i));
                 actionIt++;
             }
@@ -870,12 +909,13 @@ void FrameworkModel::CalculateVulnerabilityLikelihood()
             assetActionWeightVector.clear();
         }
         unionThreatActorLikelihood = UnionLikelihood(threatActorVulnerabilityWeights);
+        assert(m_vulnerabilities.find(v2aIt->first)!=m_vulnerabilities.end());
         m_vulnerabilities[v2aIt->first].SetLikelihood(unionThreatActorLikelihood);
         threatActorVulnerabilityWeights.clear();
         v2aIt++;
     }
     
-    // cout << "Vulnerability likelihoods calculated" << endl;
+    cout << "Vulnerability likelihoods calculated" << endl;
 }
 
 // Compute the union probability of likelihoods given in the vector
@@ -922,19 +962,23 @@ void FrameworkModel::CalculateVulnerabilityImpact()
             cumulativeMaxWeight += m_properties[*propertyIt].GetMaxWeight();
             propertyIt++;
         }
-        
+        assert(m_vulnerabilities.find(v2pIt->first)!=m_vulnerabilities.end());
+
         m_vulnerabilities[v2pIt->first].SetImpact(cumulativeWeight);
         m_vulnerabilities[v2pIt->first].SetMaxImpact(cumulativeMaxWeight);
         v2pIt++;
     }
-    // cout << "Vulnerability impacts calculated" << endl;
+    cout << "Vulnerability impacts calculated" << endl;
 }
 
 void FrameworkModel::CalculateImpactsLikelihoodsAndRisks()
 {
+
     CalculateControlScores();
     std::unordered_map<std::string,vector<std::string>>::iterator r2vIt = m_risk2Vulnerability.begin();
-    
+
+    ListVulnerabilities();
+    cout << "********************";
     while(r2vIt!=m_risk2Vulnerability.end())
     {
         vector<string> linkedVulnerabilities = r2vIt->second;
@@ -945,9 +989,11 @@ void FrameworkModel::CalculateImpactsLikelihoodsAndRisks()
         double cumulativeInherentRisk=0;
         double cumulativeResidualRisk=0;
         int numApplicableVulnerabilities = 0;
-        
+
+
         while(vulnerabilityIt!=linkedVulnerabilities.end())
         {
+            assert(m_vulnerabilities.find(*vulnerabilityIt)!=m_vulnerabilities.end());
             if(m_vulnerabilities[*vulnerabilityIt].GetWeight()!=0)
             {
                 numApplicableVulnerabilities++;
@@ -959,12 +1005,13 @@ void FrameworkModel::CalculateImpactsLikelihoodsAndRisks()
             
             vulnerabilityIt++;
         }
-        
+        assert(m_risk.find(r2vIt->first)!=m_risk.end());
         m_risk[r2vIt->first].Setlikelihood(cumulativeLikelihood);
         m_risk[r2vIt->first].SetImpact(cumulativeImpact);
         m_risk[r2vIt->first].SetNumberOfApplicableVulnerabilities(numApplicableVulnerabilities);
         m_risk[r2vIt->first].SetInherentRisk(cumulativeInherentRisk);
         m_risk[r2vIt->first].SetResidualRisk(cumulativeResidualRisk);
+        cout << "setting residual risk for : " <<  m_risk[r2vIt->first].GetName() << " as " << m_risk[r2vIt->first].GetResidualRisk();
         double totalInherentRisk = CalculateFrameworkMaxInherentRisk();
         m_risk[r2vIt->first].SetRiskTotal(totalInherentRisk);
         
@@ -989,17 +1036,19 @@ void FrameworkModel::CalculateVulnerabilityControlScores()
         
         while(vulnerabilityIt!=linkedVulnerabilities.end())
         {
+            assert(m_vulnerabilities.find(*vulnerabilityIt)!=m_vulnerabilities.end());
             m_vulnerabilities[*vulnerabilityIt].AddControlWeight(m_controls[c2vIt->first].GetEffectiveness()*m_controls[c2vIt->first].GetWeight());
             
             if (m_vulnerabilities[*vulnerabilityIt].GetWeight() != 0)
             {
+                assert(m_controls.find(c2vIt->first)!=m_controls.end());
                 m_controls[c2vIt->first].SetApplicability(true);
             }
             vulnerabilityIt++;
         }
         c2vIt++;
     }
-    // cout << "Risk mitigation score for each control calculated" << endl;
+     cout << "Risk mitigation score for each control calculated" << endl;
 }
 
 void FrameworkModel::CalculateControlScores()
@@ -1024,9 +1073,9 @@ void FrameworkModel::ListImpactsAndLikelihoods()
     while(riskIterator != m_risk.end())
     {
         Risk currRisk = riskIterator->second;
-        // cout << "\n\n ************ RESULT *************** \n\n";
-        // cout << "Risk: " << currRisk.GetName() << " | Inherent Risk: " << currRisk.GetNormalisedInherentRisk() << " | Residual Risk: " << currRisk.GetNormalisedResidualRisk() << endl;
-        // cout << "\n\n ************ RESULT *************** \n\n";
+        cout << "\n\n ************ RESULT *************** \n\n";
+        cout << "Risk: " << currRisk.GetName() << " | Inherent Risk: " << currRisk.GetNormalisedInherentRisk() << " | Residual Risk: " << currRisk.GetNormalisedResidualRisk() << endl;
+        cout << "\n\n ************ RESULT *************** \n\n";
         
         csFile << currRisk.GetName() << "," << currRisk.GetNormalisedInherentRisk() << "," << currRisk.GetNormalisedResidualRisk() << endl;
         riskIterator ++;
@@ -1058,6 +1107,8 @@ void FrameworkModel::CalculateResidualRisks()
     {
         Risk currRisk = riskIterator->second;
         double residualRisk = currRisk.GetControlScore()*currRisk.GetInherentRisk();
+        assert(m_risk.find(riskIterator->first)!=m_risk.end());
+        cout << "Setting residual risk for : " << m_risk[riskIterator->first].GetName() << " as: " << residualRisk << endl;
         m_risk[riskIterator->first].SetResidualRisk(residualRisk);
         riskIterator++;
     }
@@ -1069,9 +1120,10 @@ double FrameworkModel::CalculateFrameworkResidualRisk()
     
     std::unordered_map<std::string,Vulnerability>::iterator vulnerabilityIt = m_vulnerabilities.begin();
     double cumulativeResidualRisk=0;
-    
+
     while(vulnerabilityIt!=m_vulnerabilities.end())
     {
+        assert(m_vulnerabilities.find(vulnerabilityIt->first)!=m_vulnerabilities.end());
         cumulativeResidualRisk += m_vulnerabilities[vulnerabilityIt->first].GetWeight()*m_vulnerabilities[vulnerabilityIt->first].GetResidualRisk();
         vulnerabilityIt++;
     }
@@ -1091,6 +1143,7 @@ double FrameworkModel::CalculateFrameworkInherentRisk()
     
     while(vulnerabilityIt!=m_vulnerabilities.end())
     {
+        assert(m_vulnerabilities.find(vulnerabilityIt->first)!=m_vulnerabilities.end());
         cumulativeInherentRisk += m_vulnerabilities[vulnerabilityIt->first].GetWeight()*m_vulnerabilities[vulnerabilityIt->first].GetInherentRisk();
         vulnerabilityIt++;
     }
@@ -1107,6 +1160,7 @@ double FrameworkModel::CalculateFrameworkMaxInherentRisk()
     double cumulativeMaxInherentRisk=0;
     while(vulnerabilityIt!=m_vulnerabilities.end())
     {
+        assert(m_vulnerabilities.find(vulnerabilityIt->first)!=m_vulnerabilities.end());
         cumulativeMaxInherentRisk += m_vulnerabilities[vulnerabilityIt->first].GetWeight()*m_vulnerabilities[vulnerabilityIt->first].GetMaxInherentRisk();
         vulnerabilityIt++;
     }
