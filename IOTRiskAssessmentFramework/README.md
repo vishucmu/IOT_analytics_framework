@@ -13,7 +13,7 @@ A framework to perform IOT Risk assessment. This is a C++ implementation of the 
 
 ## Build Steps
 
-`git clone https://github.com/siddhantjain/IOTRiskAssessmentFramework.git` <br />
+`git clone https://github.com/vishucmu/IOT_analytics_framework.git` <br />
 `cd IOTRiskAssessmentFramework` <br />
 `mkdir build` <br />
 `cd build` <br />

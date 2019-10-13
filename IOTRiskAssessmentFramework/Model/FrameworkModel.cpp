@@ -81,60 +81,60 @@ void FrameworkModel::GetParameters()
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,'\n');
     m_useDeviceWeights = (bool) std::atof(minScore.c_str());
-    // cout << "Use device prevalency scores: " << std::atof(minScore.c_str()) << endl;
+    cout << "Use device prevalency scores: " << std::atof(minScore.c_str()) << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,'\n');
     m_controlDelta = std::atof(minScore.c_str());
-    // cout << "Control sensitivity delta: " << m_controlDelta << endl;
+    cout << "Control sensitivity delta: " << m_controlDelta << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
     std::getline(pFile,maxScore,'\n');
     m_assetMinScore = std::atof(minScore.c_str());
     m_assetMaxScore = std::atof(maxScore.c_str());
-    // cout << "Asset likelihood score range: " << m_assetMinScore << "-" << m_assetMaxScore << endl;
+    cout << "Asset likelihood score range: " << m_assetMinScore << "-" << m_assetMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
     std::getline(pFile,maxScore,'\n');
     m_actionMinScore = std::atof(minScore.c_str());
     m_actionMaxScore = std::atof(maxScore.c_str());
-    // cout << "Action likelihood score range: " << m_actionMinScore << "-" << m_actionMaxScore << endl;
+    cout << "Action likelihood score range: " << m_actionMinScore << "-" << m_actionMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
     std::getline(pFile,maxScore,'\n');
     m_vulnerabilityMinScore = std::atof(minScore.c_str());
     m_vulnerabilityMaxScore = std::atof(maxScore.c_str());
-    // cout << "Vulnerability prevalency score range: " << m_vulnerabilityMinScore << "-" << m_vulnerabilityMaxScore << endl;
+    cout << "Vulnerability prevalency score range: " << m_vulnerabilityMinScore << "-" << m_vulnerabilityMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
     std::getline(pFile,maxScore,'\n');
     m_impactMinScore = std::atof(minScore.c_str());
     m_impactMaxScore = std::atof(maxScore.c_str());
-    // cout << "Impact score range: " << m_impactMinScore << "-" << m_impactMaxScore << endl;
+    cout << "Impact score range: " << m_impactMinScore << "-" << m_impactMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
     std::getline(pFile,maxScore,'\n');
     m_deviceMinScore = std::atof(minScore.c_str());
     m_deviceMaxScore = std::atof(maxScore.c_str());
-    // cout << "Device prevalency score range: " << m_deviceMinScore << "-" << m_deviceMaxScore << endl;
+    cout << "Device prevalency score range: " << m_deviceMinScore << "-" << m_deviceMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
     std::getline(pFile,maxScore,'\n');
     m_controlMinScore = std::atof(minScore.c_str());
     m_controlMaxScore = std::atof(maxScore.c_str());
-    // cout << "Control implementation score range: " << m_controlMinScore << "-" << m_controlMaxScore << endl;
+    cout << "Control implementation score range: " << m_controlMinScore << "-" << m_controlMaxScore << endl;
     m_controlDelta = m_controlDelta/(m_controlMaxScore - m_controlMinScore);
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
     std::getline(pFile,maxScore,'\n');
     m_controlEMinScore = std::atof(minScore.c_str());
     m_controlEMaxScore = std::atof(maxScore.c_str());
-    // cout << "Control effectiveness score range: " << m_controlEMinScore << "-" << m_controlEMaxScore << endl;
+    cout << "Control effectiveness score range: " << m_controlEMinScore << "-" << m_controlEMaxScore << endl;
     std::getline(pFile,name,',');
     std::getline(pFile,minScore,',');
     std::getline(pFile,maxScore,'\n');
     m_riskMinScore = std::atof(minScore.c_str());
     m_riskMaxScore = std::atof(maxScore.c_str());
-    // cout << "Risk score range: " << m_riskMinScore << "-" << m_riskMaxScore << endl;
+    cout << "Risk score range: " << m_riskMinScore << "-" << m_riskMaxScore << endl;
 }
 
 void FrameworkModel::PopulateVulnerabilities()
@@ -171,7 +171,7 @@ void FrameworkModel::PopulateVulnerabilities()
         m_vulnerabilities.insert(std::make_pair(ID, vTemp));
     }
     
-     cout << "Total number of vulnerabilities read: " << m_vulnerabilities.size() << endl;
+    cout << "Total number of vulnerabilities read: " << m_vulnerabilities.size() << endl;
 }
 
 void FrameworkModel::GetNumberOfThreatActors()
@@ -278,8 +278,7 @@ void FrameworkModel::PopulateAssets()
         Asset aTemp(ID,name,category,subcategory,weightVec,m_assetMinScore,m_assetMaxScore);
         m_assets[ID]  = aTemp;
     }
-    
-     cout << "Total number of assets read: " << m_assets.size() << endl;
+    cout << "Total number of assets read: " << m_assets.size() << endl;
 }
 
 void FrameworkModel::PopulateProperties()
@@ -454,15 +453,16 @@ void FrameworkModel::AddVul2ActionMapping(string vulID, string actionID)
 {
     assert(m_actions.find(actionID)!=m_actions.end());
     assert(m_vulnerabilities.find(vulID)!=m_vulnerabilities.end());
+    cout << "Adding a mapping from vulnerability: " << vulID << " to action: " << actionID << endl;
     m_vulnerability2Action[vulID].push_back(actionID);
 }
 
 void FrameworkModel::AddAction2AssetMapping(string actionID, string assetID)
 {
+
     assert(m_actions.find(actionID)!=m_actions.end());
     assert(m_assets.find(assetID)!=m_assets.end());
-
-    // cout << "Adding a mapping from action: " << actionID << " to asset: " << assetID << endl;
+    cout << "Adding a mapping from action: " << actionID << " to asset: " << assetID << endl;
     m_action2Asset[actionID].push_back(assetID);
 }
 
@@ -470,15 +470,15 @@ void FrameworkModel::AddVul2PropertyMapping(string vulID, string propertyID)
 {
     assert(m_vulnerabilities.find(vulID)!=m_vulnerabilities.end());
     assert(m_properties.find(propertyID)!=m_properties.end());
-    // cout << "Adding a mapping from vulnerability: " << vulID << " to property: " << propertyID << endl;
+    cout << "Adding a mapping from vulnerability: " << vulID << " to property: " << propertyID << endl;
     m_vulnerability2Property[vulID].push_back(propertyID);
 }
 
 void FrameworkModel::AddRisk2VulMapping(string rID, string vulID)
 {
-    cout << "siddhant: vulnerability ID: " << vulID << endl;
     assert(m_vulnerabilities.find(vulID)!=m_vulnerabilities.end());
     assert(m_risk.find(rID)!=m_risk.end());
+    cout << "Adding a mapping from risk: " << rID << " to vulnerability: " << vulID << endl;
     m_risk2Vulnerability[rID].push_back(vulID);
 }
 
@@ -486,15 +486,15 @@ void FrameworkModel::AddRisk2ControlMapping(string rID, string controlID)
 {
     assert(m_controls.find(controlID)!=m_controls.end());
     assert(m_risk.find(rID)!=m_risk.end());
+    cout << "Adding a mapping from risk: " << rID << " to control: " << controlID << endl;
     m_risk2Control[rID].push_back(controlID);
 }
 
 void FrameworkModel::AddControl2VulnerabilityMapping(string controlID, string vulID)
 {
-    cout << "siddhant: vulnerability ID: " << vulID << endl;
     assert(m_controls.find(controlID)!=m_controls.end());
     assert(m_vulnerabilities.find(vulID)!=m_vulnerabilities.end());
-    // cout << "Adding a mapping from control: " << controlID << " to vulnerability: " << vulID << endl;
+    cout << "Adding a mapping from control: " << controlID << " to vulnerability: " << vulID << endl;
     m_control2Vulnerability[controlID].push_back(vulID);
 }
 
@@ -502,7 +502,7 @@ void FrameworkModel::AddDevice2VulnerabilityMapping(string deviceID, string vulI
 {
     assert(m_devices.find(deviceID)!=m_devices.end());
     assert(m_vulnerabilities.find(vulID)!=m_vulnerabilities.end());
-    // cout << "Adding a mapping from device: " << deviceID << " to vulnerability: " << vulID << endl;
+    cout << "Adding a mapping from device: " << deviceID << " to vulnerability: " << vulID << endl;
     m_device2Vulnerability[deviceID].push_back(vulID);
 }
 
@@ -529,7 +529,7 @@ void FrameworkModel::WriteMapsToFile()
             line+=",";
         }
         line.pop_back();
-        line+="\n";
+        line+='\r';
         V2AFile << line;
         v2aIt++;
     }
@@ -550,7 +550,7 @@ void FrameworkModel::UpdateVulnerabilityDeviceWeights()
         vector<string>::iterator vulIt = linkedVuls.begin();
         
         
-        // cout << "updating vulnerability prevalency score: " << *vulIt << endl;
+        cout << "updating vulnerability prevalency score: " << *vulIt << endl;
         while(vulIt!=linkedVuls.end())
         {
             assert(m_vulnerabilities.find(*vulIt)!=m_vulnerabilities.end());
@@ -562,7 +562,7 @@ void FrameworkModel::UpdateVulnerabilityDeviceWeights()
         d2vIt++;
     }
     
-    // cout << "Vulnerability prevalency score updated: " << endl;
+    cout << "Vulnerability prevalency score updated: " << endl;
 }
 
 void FrameworkModel::ReadMapsFromFile()
@@ -878,7 +878,7 @@ void FrameworkModel::CalculateActionAssetWeights()
         a2aIt ++;
     }
     
-     cout << "Action/asset likelihoods calculated" << endl;
+  cout << "Action/asset likelihoods calculated" << endl;
 }
 
 void FrameworkModel::CalculateVulnerabilityLikelihood()
@@ -897,7 +897,7 @@ void FrameworkModel::CalculateVulnerabilityLikelihood()
         {
             vector<string>::iterator actionIt = linkedActions.begin();
             
-            // cout << "Calculating likelihood for vulnerability: " << v2aIt->first << endl;
+            cout << "Calculating likelihood for vulnerability: " << v2aIt->first << endl;
             while(actionIt!=linkedActions.end())
             {
 
@@ -1017,7 +1017,7 @@ void FrameworkModel::CalculateImpactsLikelihoodsAndRisks()
         
         r2vIt++;
     }
-    // cout << "Risk likelihoods, impacts, and number of applicable vulnerabilities calculated" << endl;
+    cout << "Risk likelihoods, impacts, and number of applicable vulnerabilities calculated" << endl;
 }
 
 void FrameworkModel::CalculateVulnerabilityControlScores()
@@ -1048,7 +1048,7 @@ void FrameworkModel::CalculateVulnerabilityControlScores()
         }
         c2vIt++;
     }
-     cout << "Risk mitigation score for each control calculated" << endl;
+    cout << "Risk mitigation score for each control calculated" << endl;
 }
 
 void FrameworkModel::CalculateControlScores()
@@ -1058,11 +1058,11 @@ void FrameworkModel::CalculateControlScores()
 
 void FrameworkModel::ListImpactsAndLikelihoods()
 {
-    // cout << "Listing all actions in the framework along with their calculated likelihood" << endl;
+    cout << "Listing all actions in the framework along with their calculated likelihood" << endl;
     // ListActions();
-    // cout << "Listing all vulnerabilities in the framework along with their calculated likelihood and impact" << endl;
+    cout << "Listing all vulnerabilities in the framework along with their calculated likelihood and impact" << endl;
     // ListVulnerabilities();
-    // cout << "Displaying the current likelihood and impact of each risk in the framework" << endl;
+    cout << "Displaying the current likelihood and impact of each risk in the framework" << endl;
     std::unordered_map<std::string,Risk>::iterator riskIterator = m_risk.begin();
     
     std::ofstream csFile("../Results/CalculatedRisksPerDomain.csv");
@@ -1172,14 +1172,13 @@ void FrameworkModel::DoSensitivityAnalysis()
     DoOneVsAllSenstivityAnalysis();
     ListControlsBySensitivityOrder();
     
-    std::system("python ../Visualization/DemoVisualizer.py");
 }
 
 void FrameworkModel::DoOneVsAllSenstivityAnalysis()
 {
     //we will change each control score by a small delta, see the difference in framework risk due to that change and store all controls based on this
     
-    // cout << "Doing one vs all sensitivity analysis" << endl;
+    cout << "Doing one vs all sensitivity analysis" << endl;
     std::unordered_map<std::string,Control>::iterator controlStartIt = m_controls.begin();
     std::unordered_map<std::string,Control>::iterator controlEndIt = m_controls.end();
     
@@ -1230,13 +1229,13 @@ void FrameworkModel::ListControlsBySensitivityOrder()
 
     std::sort(sortedControls.begin(),sortedControls.end(),greater_than_sensitivity());
 
-    std::ofstream csFile("../results/ControlSensitivities.csv");
+    std::ofstream csFile("../Results/ControlSensitivities.csv");
 
 
     csFile << "Control,Residual Risk Reduction,Control Implementation Score,Control Effectiveness Score" << endl;
     for(auto ctrl : sortedControls)
     {
-        // cout << "Control: " << ctrl.GetName() << " Residual risk reduction: " << ctrl.GetSensitivity() << endl;
+        cout << "Control: " << ctrl.GetName() << " Residual risk reduction: " << ctrl.GetSensitivity() << endl;
         csFile << ctrl.GetName() << "," << ctrl.GetSensitivity() << "," << ctrl.GetOriginalWeight() << "," << ctrl.GetOriginalEffectiveness() << endl;
     }
 
@@ -1255,13 +1254,13 @@ void FrameworkModel::ListControlsBySensitivityOrder()
         
         std::sort(linkedControls.begin(),linkedControls.end(),greater_than_sensitivity());
         
-        std::ofstream csFile("../results/"+m_risk[risk.first].GetName()+" Control Sensitivities.csv");
+        std::ofstream csFile("../Results/"+m_risk[risk.first].GetName()+" Control Sensitivities.csv");
 
 
         csFile << "Control,Residual Risk Reduction,Control Implementation Score,Control Effectiveness Score" << endl;
         for(auto ctrl : linkedControls)
         {
-            // cout << "Control: " << ctrl.GetName() << " Residual risk reduction: " << ctrl.GetSensitivity() << endl;
+            cout << "Control: " << ctrl.GetName() << " Residual risk reduction: " << ctrl.GetSensitivity() << endl;
             csFile << ctrl.GetName() << "," << ctrl.GetSensitivity() << "," << ctrl.GetOriginalWeight() << "," << ctrl.GetOriginalEffectiveness() << endl;
         }
     }
