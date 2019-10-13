@@ -19,9 +19,9 @@ class Jsonify(Resource):
         return response()
 
     def post(self):
-        # process(request.get_json())
-        # myCmd = './iot_risk_assessment'
-        # os.system(myCmd)
+        process(request.get_json())
+        myCmd = './iot_risk_assessment'
+        os.system(myCmd)
         return response()
         # return "csv2json"
 
@@ -38,10 +38,10 @@ def process(desc):
         print(csv_data)
 
 def writetofile(csvname, csv_data):
-    csvfile = open('../Data/' + csvname + '.csv', 'a+')
+    csvfile = open('../Data/' + csvname + '.csv', 'w')
     # logging.warning("CSV File::" + csvfile + " created")
         # create the csv writer object
-    csvwriter = csv.writer(csvfile)
+    csvwriter = csv.writer(csvfile,lineterminator='\n')
     count = 0
     for row in csv_data:
         if count == 0:
@@ -53,7 +53,7 @@ def writetofile(csvname, csv_data):
     csvfile.close()
 
 def response():
-    path = "Results/"
+    path = "../Results/"
     csv_rows = []
     data = []
     fileindex = 0
